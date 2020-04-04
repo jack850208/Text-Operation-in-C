@@ -2,6 +2,8 @@
 #include "stdlib.h"
 #include "string.h"
 
+int poschr(char str[],const char* key);
+
 int main(int argc, char *argv[]){
 	
 	FILE *fp;
@@ -32,25 +34,26 @@ int main(int argc, char *argv[]){
 	printf("%p\n",*ptr);
 	printf("%p\n",&str);
 	ptr = fgets(str,120,fp);
-	tm = strstr(ptr,"is");
+	tm = strstr(ptr,"ack");
 	printf("%d\n",strlen("Jack"));
 	printf("J address in ptr:%p\n",&tm[0]);
 	printf("J address +1 in ptr:%p\n",&tm[1]);
 	printf("J value in ptr:%c\n",tm[0]);
 	printf("J value in ptr+1:%c\n",tm[1]);
+	poschr(str,"ack");
 	free(ptr);
 	fclose(fp);
 }
 
-/*
-int poschr(char str[],char key){
+
+int poschr(char str[],const char* key){
 	
 	int pos;
 	char *tcp;
 	
 	tcp = strstr(str,key);
-	
+	pos = (&tcp[0] - &str[0])/sizeof(char) + 1;
+	printf("%d\n",pos);
 	
 	return pos;
 }
-*/
