@@ -3,13 +3,14 @@
 #include "string.h"
 
 int poschr(char str[],const char* key);
+char *strlen(char str[], int pos, int len);
 
+// Main Program
 int main(int argc, char *argv[]){
 	
 	FILE *fp;
 	char str[120];
 	char *ptr,*tm;
-	int f;
 	
 	// judgement the syntax if correct
 	if(argc != 2){
@@ -23,37 +24,53 @@ int main(int argc, char *argv[]){
 		printf("檔案開啟失敗，請檢查路徑或檔名是否輸入正確！\n");
 		exit(1);
 	}
-	/*
-	while(fgets(str,120,fp)){
-		printf("%s",str);
-	}
-	*/
-	
-	printf("%p\n",&tm);
-	printf("%p\n",&ptr);
-	printf("%p\n",*ptr);
-	printf("%p\n",&str);
-	ptr = fgets(str,120,fp);
-	tm = strstr(ptr,"ack");
-	printf("%d\n",strlen("Jack"));
-	printf("J address in ptr:%p\n",&tm[0]);
-	printf("J address +1 in ptr:%p\n",&tm[1]);
-	printf("J value in ptr:%c\n",tm[0]);
-	printf("J value in ptr+1:%c\n",tm[1]);
-	poschr(str,"ack");
-	free(ptr);
+
+	fgets(str,120,fp);
+
+	printf("%s\n",strlen(str,poschr(str,"is"),sizeof("is")));
 	fclose(fp);
+	return 0;
 }
 
 
+
+/*************************************************************************
+*				Position in String 
+*	Usage:	str -> The String you want to search
+*			key -> The key word you hope to search in input String
+***************************************************************************/
 int poschr(char str[],const char* key){
 	
 	int pos;
 	char *tcp;
 	
 	tcp = strstr(str,key);
-	pos = (&tcp[0] - &str[0])/sizeof(char) + 1;
+	pos = (&tcp[0] - &str[0])/sizeof(char);
 	printf("%d\n",pos);
 	
 	return pos;
+}
+
+/*************************************************************************
+*				Get a word form position in String 
+*	Usage:	str ->	The string you want to search
+*			pos ->	The position in the string
+*			len ->	Lenth of String you want to get
+*************************************************************************/
+
+char *strlen(char *str, int pos, int len){
+	
+	char *ptr;
+	char tm[len];
+	int i;
+	
+	ptr = str + pos * sizeof(char);
+	for(i = 0;i < len;i++){
+		printf("%c",*(ptr+i));
+		tm[i] = *(ptr + i);
+		if(i == (len - 1)) printf("\n");
+	}
+	
+	return tm;
+	
 }
