@@ -3,14 +3,17 @@
 #include "string.h"
 
 int poschr(char str[],const char* key);
-char *strlen(char str[], int pos, int len);
+char *strleng(char *str, int pos, int len);
+const char wd[] = "";
+
 
 // Main Program
 int main(int argc, char *argv[]){
 	
 	FILE *fp;
 	char str[120];
-	char *ptr,*tm;
+	char *ptr,*sp;
+	int k_len;
 	
 	// judgement the syntax if correct
 	if(argc != 2){
@@ -24,11 +27,16 @@ int main(int argc, char *argv[]){
 		printf("檔案開啟失敗，請檢查路徑或檔名是否輸入正確！\n");
 		exit(1);
 	}
-
+	
 	fgets(str,120,fp);
-
-	printf("%s\n",strlen(str,poschr(str,"is"),sizeof("is")));
+	k_len = poschr(str,"and");
+	if(k_len == -1) exit(1);
+	sp = strleng(str,k_len,sizeof("and"));
+	printf("%s",sp);
+	
 	fclose(fp);
+	free(sp);
+
 	return 0;
 }
 
@@ -45,6 +53,8 @@ int poschr(char str[],const char* key){
 	char *tcp;
 	
 	tcp = strstr(str,key);
+	if(tcp==NULL) return -1;
+	
 	pos = (&tcp[0] - &str[0])/sizeof(char);
 	printf("%d\n",pos);
 	
@@ -58,19 +68,21 @@ int poschr(char str[],const char* key){
 *			len ->	Lenth of String you want to get
 *************************************************************************/
 
-char *strlen(char *str, int pos, int len){
+char *strleng(char *str, int pos, int len){
 	
-	char *ptr;
-	char tm[len];
+	char *ptr,*sp;
 	int i;
+	
+	sp = (char*)malloc(len*sizeof(char));
 	
 	ptr = str + pos * sizeof(char);
 	for(i = 0;i < len;i++){
 		printf("%c",*(ptr+i));
-		tm[i] = *(ptr + i);
+		sp[i] = *(ptr + i);
 		if(i == (len - 1)) printf("\n");
 	}
 	
-	return tm;
+	//for(i=0;i < len;i++) printf("%c\n",sp[i]);
 	
+	return sp;
 }
