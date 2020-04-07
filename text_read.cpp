@@ -1,10 +1,13 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include "ctype.h"
 
 int poschr(char str[],const char* key);
 char *strleng(char *str, int pos, int len);
-const char wd[] = "";
+void getword(char *s, int n);
+
+char wd[] = "Kind,Lot No,kdkdkd";
 
 
 // Main Program
@@ -28,14 +31,17 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
 	
-	fgets(str,120,fp);
-	k_len = poschr(str,"and");
-	if(k_len == -1) exit(1);
-	sp = strleng(str,k_len,sizeof("and"));
-	printf("%s",sp);
+	do{
+	
+		fgets(str,120,fp);
+		printf("%s",str);
+
+	} while(poschr(str,"R e s u l t   M a p")==-1);
+	
+	getword(wd,2);
 	
 	fclose(fp);
-	free(sp);
+	//free(sp);
 
 	return 0;
 }
@@ -85,4 +91,31 @@ char *strleng(char *str, int pos, int len){
 	//for(i=0;i < len;i++) printf("%c\n",sp[i]);
 	
 	return sp;
+}
+
+
+void getword(char s[], int n){
+	
+	int i = 0, c = 0, temp = 0;
+	
+	do {
+		
+		if(ispunct(s[i])){
+			c++;
+			if(c < n){
+				temp = i;
+			}
+			else{
+				temp = i - temp;
+			}
+		}
+		i++;
+		if(c = n-1){
+			temp = sizeof(s) - i + 1;
+			c++;
+		}
+	} while(c != n);
+	
+	printf("%d\n",i);
+	printf("%d\n",temp);
 }
